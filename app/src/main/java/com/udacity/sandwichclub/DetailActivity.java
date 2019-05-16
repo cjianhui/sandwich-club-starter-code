@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.udacity.sandwichclub.model.Sandwich;
 import com.udacity.sandwichclub.utils.JsonUtils;
+
+import java.util.Arrays;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -43,7 +46,7 @@ public class DetailActivity extends AppCompatActivity {
             return;
         }
 
-        populateUI();
+        populateUI(sandwich);
         Picasso.with(this)
                 .load(sandwich.getImage())
                 .into(ingredientsIv);
@@ -56,7 +59,23 @@ public class DetailActivity extends AppCompatActivity {
         Toast.makeText(this, R.string.detail_error_message, Toast.LENGTH_SHORT).show();
     }
 
-    private void populateUI() {
+    private void populateUI(Sandwich sandwich) {
+        TextView alsoKnownTextView = (TextView) findViewById(R.id.also_known_tv);
+        TextView ingredientsTextView = (TextView) findViewById(R.id.ingredients_tv);
+        TextView originTextView = (TextView) findViewById(R.id.origin_tv);
+        TextView descriptionTextView = (TextView) findViewById(R.id.description_tv);
 
+        /*
+            If alsoKnownAs or origin are empty, set string to - to denote information is absent.
+        */
+        String alsoKnownAs = sandwich.getAlsoKnownAs().isEmpty() ? "-" :
+                Arrays.toString(sandwich.getAlsoKnownAs().toArray()).replaceAll("\\[|\\]","");
+        String origin = sandwich.getPlaceOfOrigin().equals("") ? "-" : sandwich.getPlaceOfOrigin();
+
+        String ingredients = Arrays.toString(sandwich.getIngredients().toArray()).replaceAll("\\[|\\]","");
+        alsoKnownTextView.setText(alsoKnownAs);
+        ingredientsTextView.setText(ingredients);
+        originTextView.setText(origin);
+        descriptionTextView.setText(sandwich.getDescription());
     }
 }
