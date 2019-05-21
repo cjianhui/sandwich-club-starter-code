@@ -49,6 +49,7 @@ public class DetailActivity extends AppCompatActivity {
         populateUI(sandwich);
         Picasso.with(this)
                 .load(sandwich.getImage())
+                .error(R.drawable.img_unavailable)
                 .into(ingredientsIv);
 
         setTitle(sandwich.getMainName());
@@ -66,11 +67,11 @@ public class DetailActivity extends AppCompatActivity {
         TextView descriptionTextView = (TextView) findViewById(R.id.description_tv);
 
         /*
-            If alsoKnownAs or origin are empty, set string to - to denote information is absent.
+            If alsoKnownAs or origin are empty, set string to detail_error_message to denote information is absent.
         */
-        String alsoKnownAs = sandwich.getAlsoKnownAs().isEmpty() ? "-" :
+        String alsoKnownAs = sandwich.getAlsoKnownAs().isEmpty() ? getString(R.string.detail_error_message) :
                 Arrays.toString(sandwich.getAlsoKnownAs().toArray()).replaceAll("\\[|\\]","");
-        String origin = sandwich.getPlaceOfOrigin().equals("") ? "-" : sandwich.getPlaceOfOrigin();
+        String origin = sandwich.getPlaceOfOrigin().equals("") ? getString(R.string.detail_error_message) : sandwich.getPlaceOfOrigin();
 
         String ingredients = Arrays.toString(sandwich.getIngredients().toArray()).replaceAll("\\[|\\]","");
         alsoKnownTextView.setText(alsoKnownAs);

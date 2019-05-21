@@ -13,8 +13,6 @@ import java.util.Arrays;
 
 public class JsonUtils {
 
-    private static String TAG = JsonUtils.class.toString();
-
     /*
         Converts a JSONArray into an array of Strings
      */
